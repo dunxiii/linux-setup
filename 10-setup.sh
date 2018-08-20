@@ -12,8 +12,10 @@ install_packages+=(
     chrome-gnome-shell
     curl
     git
+    gnome-shell-extensions-gpaste
     gnome-tweaks
     google-chrome-stable
+    gpaste
     gpick
     htop
     network-manager-openconnect-gnome # Only in Ubuntu
