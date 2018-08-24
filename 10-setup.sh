@@ -18,14 +18,15 @@ install_packages+=(
     gpaste
     gpick
     htop
+    icedtea-8-plugin
     network-manager-openconnect-gnome # Only in Ubuntu
     nextcloud-client
     nextcloud-client-nautilus
     openssh-server
     papirus-icon-theme
+    ranger
     telegram-desktop
     terminator
-    ranger
     unrar # requires non-free debian repo
     vim
 )
