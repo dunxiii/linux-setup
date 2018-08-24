@@ -25,15 +25,20 @@ install_packages+=(
     papirus-icon-theme
     telegram-desktop
     terminator
+    ranger
     unrar # requires non-free debian repo
     vim
 )
 
 if [ "$(lsb_release -is)" = "Ubuntu" ]; then
 
+    add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
+
     install_packages+=(
-        ranger
+	adobe-flashplugin
+	browser-plugin-freshplayer-pepperflash
     )
+
 
 elif [ "$(lsb_release -is)" = "Debian" ]; then
 
