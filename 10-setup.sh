@@ -26,6 +26,7 @@ install_packages+=(
     openssh-server
     papirus-icon-theme
     ranger
+    spotify-client
     telegram-desktop
     terminator
     unrar # requires non-free debian repo
@@ -77,6 +78,10 @@ fi
 # Repo for chrome
 wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+
+# Repo for spotify
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+echo "deb http://repository.spotify.com stable non-free" > /etc/apt/sources.list.d/spotify.list
 
 # Repo for nextcloud
 add-apt-repository -y ppa:nextcloud-devs/client
