@@ -22,6 +22,7 @@ install_packages+=(
     network-manager-openconnect-gnome # Only in Ubuntu
     nextcloud-client
     nextcloud-client-nautilus
+    nmap
     openssh-server
     papirus-icon-theme
     ranger
