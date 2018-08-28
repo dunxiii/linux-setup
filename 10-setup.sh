@@ -26,6 +26,7 @@ install_packages+=(
     openssh-server
     papirus-icon-theme
     ranger
+    remmina
     spotify-client
     telegram-desktop
     terminator
