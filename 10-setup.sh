@@ -25,6 +25,7 @@ install_packages+=(
     nmap
     openssh-server
     papirus-icon-theme
+    pwgen
     ranger
     remmina
     spotify-client
