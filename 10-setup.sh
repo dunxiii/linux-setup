@@ -3,13 +3,12 @@
 set -au
 
 install_packages+=(
-    #default-jre
     #libnss3-tools
     #ntp
     #python-keyring # replaced by pip keyring
-    #ranger
     ansible
     arc-theme
+    bluez-tools # used for argos script to show if QC is connected
     chrome-gnome-shell
     curl
     git
