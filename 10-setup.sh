@@ -8,6 +8,7 @@ install_packages+=(
     #ntp
     #python-keyring # replaced by pip keyring
     #ranger
+    ansible
     arc-theme
     chrome-gnome-shell
     curl
@@ -84,6 +85,10 @@ echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /et
 # Repo for spotify
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 echo "deb http://repository.spotify.com stable non-free" > /etc/apt/sources.list.d/spotify.list
+
+# Repo for ansible
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu bionic main" > /etc/apt/sources.list.d/ansible.list
 
 # Repo for nextcloud
 add-apt-repository -y ppa:nextcloud-devs/client
