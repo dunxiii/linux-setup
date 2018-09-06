@@ -11,6 +11,7 @@ install_packages+=(
     bluez-tools # used for argos script to show if QC is connected
     chrome-gnome-shell
     curl
+    deja-dup
     git
     gnome-shell-extensions-gpaste
     gnome-tweaks
