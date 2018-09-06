@@ -12,6 +12,7 @@ install_packages+=(
     chrome-gnome-shell
     curl
     deja-dup
+    duplicity
     git
     gnome-shell-extensions-gpaste
     gnome-tweaks
