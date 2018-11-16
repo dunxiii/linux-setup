@@ -42,10 +42,13 @@ if [ "$(lsb_release -is)" = "Ubuntu" ]; then
     add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
 
     install_packages+=(
-	adobe-flashplugin
-	browser-plugin-freshplayer-pepperflash
+        adobe-flashplugin
+        browser-plugin-freshplayer-pepperflash
     )
 
+    purge_packages+=(
+        update-manager
+    )
 
 elif [ "$(lsb_release -is)" = "Debian" ]; then
 
