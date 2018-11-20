@@ -4,12 +4,13 @@ set -au
 
 install_packages+=(
     #libnss3-tools
+    #bluez-tools # used for argos script to show if QC is connected
     #ntp
     #python-keyring # replaced by pip keyring
     ansible
     arc-theme
-    bluez-tools # used for argos script to show if QC is connected
     chrome-gnome-shell
+    code
     curl
     deja-dup
     duplicity
@@ -21,6 +22,7 @@ install_packages+=(
     gpick
     htop
     icedtea-8-plugin
+    libreoffice
     network-manager-openconnect-gnome # Only in Ubuntu
     nextcloud-client
     nextcloud-client-nautilus
@@ -48,6 +50,7 @@ if [ "$(lsb_release -is)" = "Ubuntu" ]; then
 
     purge_packages+=(
         update-manager
+        apport
     )
 
 elif [ "$(lsb_release -is)" = "Debian" ]; then
@@ -93,6 +96,12 @@ echo "deb http://repository.spotify.com stable non-free" > /etc/apt/sources.list
 # Repo for ansible
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu bionic main" > /etc/apt/sources.list.d/ansible.list
+
+# Repo for VSCode
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+rm microsoft.gpg
+sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 
 # Repo for nextcloud
 add-apt-repository -y ppa:nextcloud-devs/client
