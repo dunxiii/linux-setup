@@ -60,6 +60,22 @@ gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-typ
 #[[ ! -L ~/.config/terminator ]] && rm -rf ~/.config/terminator
 #[[ ! -L ~/.ssh ]] && rm -rf ~/.ssh
 
+# Install VSCode extentions
+vscode_ext+=(
+    DavidAnson.vscode-markdownlint
+    eamodio.gitlens
+    eamodio.toggle-excluded-files
+    PKief.markdown-checkbox
+    robertohuertasm.vscode-icons
+    shd101wyy.markdown-preview-enhanced
+    vscoss.vscode-ansible
+    zhuangtongfa.Material-theme
+)
+
+for extension in "${vscode_ext[@]}"; do
+    code --install-extension "${extension}"
+done
+
 # fzf
 #[[ ! -d ~/git/fzf ]] && git clone --depth 1 https://github.com/junegunn/fzf.git ~/git/fzf && \
 #    ~/git/fzf/install

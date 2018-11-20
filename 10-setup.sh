@@ -3,8 +3,8 @@
 set -au
 
 install_packages+=(
-    #libnss3-tools
     #bluez-tools # used for argos script to show if QC is connected
+    #libnss3-tools
     #ntp
     #python-keyring # replaced by pip keyring
     ansible
