@@ -3,10 +3,6 @@
 set -au
 
 install_packages+=(
-    #bluez-tools # used for argos script to show if QC is connected
-    #libnss3-tools
-    #ntp
-    #python-keyring # replaced by pip keyring
     ansible
     arc-theme
     chrome-gnome-shell
@@ -35,6 +31,7 @@ install_packages+=(
     spotify-client
     telegram-desktop
     terminator
+    transmission
     unrar # requires non-free debian repo
     vim
 )
@@ -61,12 +58,6 @@ elif [ "$(lsb_release -is)" = "Debian" ]; then
     )
 
     purge_packages+=(
-        #cheese
-        #gnome-calendar
-        #gnome-terminal
-        #gnome-todo
-        #rhythmbox
-        #shotwell
         gnome-games
     )
 
@@ -101,7 +92,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu bionic main" > /etc/apt/sources.list.d/ansible.list
 
 # Repo for VSCode
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
 rm microsoft.gpg
 sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
