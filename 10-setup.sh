@@ -26,6 +26,7 @@ install_packages+=(
     openssh-server
     papirus-icon-theme
     pwgen
+    python3-venv
     ranger
     remmina
     spotify-client
