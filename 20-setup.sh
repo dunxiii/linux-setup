@@ -27,6 +27,13 @@ gsettings set org.gnome.settings-daemon.peripherals.touchscreen orientation-lock
 gsettings set org.gnome.settings-daemon.plugins.orientation active false
 gsettings set org.gnome.shell favorite-apps "['terminator.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gedit.desktop', 'google-chrome.desktop', 'firefox-esr.desktop', 'org.gnome.Screenshot.desktop']"
 
+# GNOME Terminal
+gsettings set org.gnome.Terminal.Legacy.Settings menu-accelerator-enabled false
+gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark'
+gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false
+gsettings set org.gtk.Settings.ColorChooser selected-color (true, 0.18431372549019609, 0.20392156862745098, 0.24705882352941178, 1.0)
+gsettings set org.gtk.Settings.ColorChooser custom-colors [(0.14117647058823529, 0.14117647058823529, 0.14117647058823529, 1.0), (0.28627450980392155, 0.28627450980392155, 0.28627450980392155, 1.0), (0.18431372549019609, 0.20392156862745098, 0.24705882352941178, 1.0)]
+
 # Nautilus
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 gsettings set org.gnome.nautilus.preferences show-delete-permanently true
@@ -57,7 +64,6 @@ gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-typ
 [[ -d ~/Music ]] && rmdir ~/Music
 [[ -d ~/Videos ]] && rmdir ~/Videos
 #[[ ! -L ~/.config/argos ]] && rm -rf ~/.config/argos
-#[[ ! -L ~/.config/terminator ]] && rm -rf ~/.config/terminator
 #[[ ! -L ~/.ssh ]] && rm -rf ~/.ssh
 
 # Install VSCode extentions
@@ -77,6 +83,5 @@ for extension in "${vscode_ext[@]}"; do
 done
 
 # fzf
-#[[ ! -d ~/git/fzf ]] && git clone --depth 1 https://github.com/junegunn/fzf.git ~/git/fzf && \
-#    ~/git/fzf/install
-#[[ ! -d ~/git/fzf-marks ]] && git clone https://github.com/urbainvaes/fzf-marks.git ~/git/fzf-marks
+[[ ! -d ~/git/fzf ]] && git clone --depth 1 https://github.com/junegunn/fzf.git ~/git/fzf && \
+    ~/git/fzf/install
