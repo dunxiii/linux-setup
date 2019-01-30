@@ -14,8 +14,6 @@ install_packages+=(
     gnome-shell-extensions-gpaste
     gnome-tweaks
     google-chrome-stable
-    gpaste
-    gpick
     htop
     icedtea-8-plugin
     libreoffice
@@ -31,7 +29,7 @@ install_packages+=(
     remmina
     spotify-client
     telegram-desktop
-    terminator
+    tmux
     transmission
     unrar # requires non-free debian repo
     vim
@@ -134,3 +132,5 @@ fi
 echo "Install these gnome extentions:"
 echo "- Refresh wifi connections"
 echo "- User Themes"
+echo "- Argos"
+echo "- Clipboard Indicator"
