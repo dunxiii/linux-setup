@@ -31,8 +31,7 @@ gsettings set org.gnome.shell favorite-apps "['terminator.desktop', 'org.gnome.N
 gsettings set org.gnome.Terminal.Legacy.Settings menu-accelerator-enabled false
 gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark'
 gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false
-gsettings set org.gtk.Settings.ColorChooser selected-color (true, 0.18431372549019609, 0.20392156862745098, 0.24705882352941178, 1.0)
-gsettings set org.gtk.Settings.ColorChooser custom-colors [(0.14117647058823529, 0.14117647058823529, 0.14117647058823529, 1.0), (0.28627450980392155, 0.28627450980392155, 0.28627450980392155, 1.0), (0.18431372549019609, 0.20392156862745098, 0.24705882352941178, 1.0)]
+echo "Set GNOME terminal BG color to #2F343F"
 
 # Nautilus
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true
