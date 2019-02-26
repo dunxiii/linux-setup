@@ -7,6 +7,7 @@ install_packages+=(
     code
     curl
     dconf-editor
+    docker-ce
     git
     gnome-tweaks
     google-chrome-stable
@@ -56,6 +57,9 @@ grep -i nvidia <(lspci) && \
 # Repo for VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
+
+# Repo for docker
+dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
 # Updates each package to the latest version that is both available and resolvable
 dnf upgrade
