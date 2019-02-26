@@ -14,19 +14,24 @@ install_packages+=(
     htop
     nmap
     pwgen
+    python-unversioned-command
     python3-virtualenv
+    ranger
     remmina
     snapd
     transmission
     unar
     vim
+    xclip
 )
 
 # nVidia driver from RPM Fusion
-install_packages+=(
-    akmod-nvidia
-    xorg-x11-drv-nvidia
-)
+if grep -i nvidia <(lspci); then
+    install_packages+=(
+        akmod-nvidia
+        xorg-x11-drv-nvidia
+    )
+fi
 
 # vscode snap does not work any good
 snap_packages+=(
@@ -44,7 +49,9 @@ fi
 # Enable google chrome repo
 dnf install fedora-workstation-repositories
 dnf config-manager --set-enabled google-chrome
-dnf config-manager --set-enabled rpmfusion-nonfree-nvidia-driver
+
+grep -i nvidia <(lspci) && \
+    dnf config-manager --set-enabled rpmfusion-nonfree-nvidia-driver
 
 # Repo for VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
