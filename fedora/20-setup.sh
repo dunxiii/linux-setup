@@ -10,6 +10,7 @@ gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
 gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 gsettings set org.gnome.settings-daemon.peripherals.touchscreen orientation-lock true
+gsettings set org.gnome.desktop.input-sources xkb-options "['caps:ctrl_modifier']"
 
 # GNOME Terminal
 gsettings set org.gnome.Terminal.Legacy.Settings menu-accelerator-enabled false
