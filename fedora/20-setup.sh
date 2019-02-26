@@ -28,7 +28,8 @@ gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 #gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
 
 # Home dir setup
-[[ ! -d ~/git ]] && mkdir ~/git
+[[ ! -d ~/Git ]] && mkdir ~/Git
+[[ ! -d ~/Dev ]] && mkdir ~/Dev
 
 # Install VSCode extentions
 vscode_ext+=(
