@@ -4,6 +4,7 @@ set -au
 
 install_packages+=(
     NetworkManager-openconnect-gnome
+    blueman
     code
     curl
     dconf-editor
