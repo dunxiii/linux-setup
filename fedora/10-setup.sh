@@ -14,6 +14,7 @@ install_packages+=(
     google-chrome-stable
     gpick
     htop
+    libgnome-keyring
     nmap
     pwgen
     python-unversioned-command
