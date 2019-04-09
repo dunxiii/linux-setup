@@ -5,7 +5,6 @@ set -au
 install_packages+=(
     NetworkManager-openconnect-gnome
     blueman
-    code
     curl
     dconf-editor
     docker-ce
@@ -70,9 +69,12 @@ dnf install "${install_packages[@]}"
 # Remove old dependencies
 dnf autoremove
 
+# Snap with --classic fix
+ln -s /var/lib/snapd/snap /snap
+
 # Install snap packages
 for snap in "${snap_packages[@]}"; do
-    snap install "${snap}"
+    snap install ${snap}
 done
 
 echo "Good gnome extentions to install:"
