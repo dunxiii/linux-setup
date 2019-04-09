@@ -15,6 +15,8 @@ install_packages+=(
     gpick
     htop
     libgnome-keyring
+    nextcloud-client
+    nextcloud-client-nautilus
     nmap
     pwgen
     python-unversioned-command
