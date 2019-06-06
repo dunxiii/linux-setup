@@ -1,0 +1,132 @@
+---
+# First run:
+# sudo dnf install ansible
+
+- hosts: all
+
+  connection: local
+  gather_facts: yes
+  become: yes
+
+  vars:
+    ansible_user: jaso
+    ansible_sudo_pass: "{{ ansible_ssh_pass }}"
+    msg: |
+          Good gnome extentions to install:
+          - Clipboard Indicator
+          - Dash to Dock
+          - No Topleft Hot Corner
+          - Refresh wifi connections
+          - Sound Input & Output Device Chooser
+          - Top Panel Workspace Scroll
+          - Topicons plus
+
+  vars_prompt:
+    - name: ansible_ssh_pass
+      prompt: "Your password"
+      private: yes
+
+  tasks:
+
+    - name: Enable passwordless sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Enable RPM Fusion
+      dnf:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+        - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-30.noarch.rpm
+        - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-30.noarch.rpm
+
+    - name: Check for nVidia gpu
+      shell: lspci | grep -qi nvidia
+      ignore_errors: yes
+      changed_when: False
+      register: nvidiaPresent
+
+    - name: Install nVidia drivers
+      dnf:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+        - xorg-x11-drv-nvidia
+        - akmod-nvidia
+      when: nvidiaPresent.rc == 0
+
+    - name: Install rpm packages
+      dnf:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+        - curl
+        - dconf-editor
+        - gnome-tweaks
+        - chromium
+        - htop
+        #- libgnome-keyring
+        - nextcloud-client
+        - nextcloud-client-nautilus
+        - moby-engine # docker
+        - nmap
+        - pwgen
+        - ranger
+        - remmina
+        - snapd
+        - transmission
+        - unar
+        - vim
+        - xclip
+        #- ffmpeg # for widevine (netflix)
+
+    - name: Append jaso to docker group
+      user:
+        name: jaso
+        append: yes
+        groups: docker
+
+    - name: Fix broken classic snap installation
+      file:
+        src: /var/lib/snapd/snap
+        dest: /snap
+        state: link
+
+    - name: Install standard snap packages
+      snap:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - spotify
+        - vlc
+
+    - name: Install classic snap packages
+      snap:
+        name: "{{ packages }}"
+        classic: yes
+      vars:
+        packages:
+        - code
+
+    - name: Enable services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - sshd
+        - docker
+
+    - name: Set gsettings
+      shell: ./gsettings.sh
+      become: false
+
+    - debug:
+        msg: "{{ msg.split('\n') }}"
