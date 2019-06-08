@@ -97,7 +97,7 @@
         - ranger
         - remmina
         - riot
-        #- snapd
+        - snapd
         - transmission
         - unar
         - vim
