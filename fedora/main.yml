@@ -52,6 +52,13 @@
         gpgkey: https://copr-be.cloud.fedoraproject.org/results/taw/Riot/pubkey.gpg
         description: Riot
 
+    - name: Add VSCode repository
+      yum_repository:
+        name: VSCode
+        baseurl: https://packages.microsoft.com/yumrepos/vscode
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+        description: VSCode
+
     - name: Check for nVidia gpu
       shell: lspci | grep -qi nvidia
       ignore_errors: yes
@@ -75,9 +82,11 @@
       vars:
         packages:
         - chromium
+        - code
         - curl
         - dconf-editor
         - ffmpeg # for widevine (netflix) and youtube(?)
+        - gnome-mpv
         - gnome-tweaks
         - htop
         - moby-engine # docker
@@ -88,7 +97,7 @@
         - ranger
         - remmina
         - riot
-        - snapd
+        #- snapd
         - transmission
         - unar
         - vim
@@ -108,27 +117,12 @@
         append: yes
         groups: libvirt
 
-    - name: Fix broken classic snap installation
-      file:
-        src: /var/lib/snapd/snap
-        dest: /snap
-        state: link
-
     - name: Install standard snap packages
       snap:
         name: "{{ packages }}"
       vars:
         packages:
-        - spotify
-        - vlc
-
-    - name: Install classic snap packages
-      snap:
-        name: "{{ packages }}"
-        classic: yes
-      vars:
-        packages:
-        - code
+        - spotify # lpf-spotify-client
 
     - name: Enable services
       systemd:
