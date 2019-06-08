@@ -122,7 +122,7 @@
         name: "{{ packages }}"
       vars:
         packages:
-        - spotify # lpf-spotify-client
+        - spotify
 
     - name: Symlink python to python3
       file:
