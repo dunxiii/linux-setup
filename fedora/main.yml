@@ -45,6 +45,13 @@
         - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-30.noarch.rpm
         - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-30.noarch.rpm
 
+    - name: Add Riot repository
+      yum_repository:
+        name: Riot
+        baseurl: https://copr-be.cloud.fedoraproject.org/results/taw/Riot/fedora-$releasever-$basearch/
+        gpgkey: https://copr-be.cloud.fedoraproject.org/results/taw/Riot/pubkey.gpg
+        description: Riot
+
     - name: Check for nVidia gpu
       shell: lspci | grep -qi nvidia
       ignore_errors: yes
@@ -80,6 +87,7 @@
         - pwgen
         - ranger
         - remmina
+        - riot
         - snapd
         - transmission
         - unar
