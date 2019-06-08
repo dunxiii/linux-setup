@@ -67,15 +67,15 @@
         state: present
       vars:
         packages:
+        - chromium
         - curl
         - dconf-editor
+        - ffmpeg # for widevine (netflix) and youtube(?)
         - gnome-tweaks
-        - chromium
         - htop
-        #- libgnome-keyring
+        - moby-engine # docker
         - nextcloud-client
         - nextcloud-client-nautilus
-        - moby-engine # docker
         - nmap
         - pwgen
         - ranger
@@ -84,14 +84,21 @@
         - transmission
         - unar
         - vim
+        - virt-manager
         - xclip
-        #- ffmpeg # for widevine (netflix)
+        #- libgnome-keyring
 
     - name: Append jaso to docker group
       user:
         name: jaso
         append: yes
         groups: docker
+
+    - name: Append jaso to libvirt group
+      user:
+        name: jaso
+        append: yes
+        groups: libvirt
 
     - name: Fix broken classic snap installation
       file:
