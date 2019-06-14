@@ -82,14 +82,16 @@
       vars:
         packages:
         - chromium
+        - chromium-libs-media-freeworld
         - code
         - curl
         - dconf-editor
+        - docker
         - ffmpeg # for widevine (netflix) and youtube(?)
         - gnome-mpv
         - gnome-tweaks
         - htop
-        - moby-engine # docker
+        #- moby-engine # docker that does not work great...
         - nextcloud-client
         - nextcloud-client-nautilus
         - nmap
