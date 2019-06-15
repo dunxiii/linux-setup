@@ -95,6 +95,7 @@
         - nextcloud-client
         - nextcloud-client-nautilus
         - nmap
+        - pavucontrol
         - pwgen
         - ranger
         - remmina
