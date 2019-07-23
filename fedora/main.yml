@@ -101,7 +101,6 @@
         - remmina
         - riot
         - snapd
-        - syncthing-gtk
         - transmission
         - unar
         - vim
@@ -134,11 +133,6 @@
         dest: /usr/bin/python
         state: link
 
-    - name: Copy Syncthing service for user
-      copy:
-        src: /usr/lib/systemd/system/syncthing@.service
-        dest: /etc/systemd/system/syncthing@jaso.service
-
     - name: Enable services
       systemd:
         name: "{{ item }}"
@@ -147,7 +141,6 @@
       with_items:
         - sshd
         - docker
-        - syncthing@jaso.service
 
     - name: Set gsettings
       shell: ./gsettings.sh
