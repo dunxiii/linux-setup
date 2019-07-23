@@ -45,6 +45,13 @@
         - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-30.noarch.rpm
         - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-30.noarch.rpm
 
+    - name: Add Docker repository
+      yum_repository:
+        name: Docker
+        baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/
+        gpgkey: https://download.docker.com/linux/fedora/gpg
+        description: Docker
+
     - name: Add Riot repository
       yum_repository:
         name: Riot
@@ -86,12 +93,11 @@
         - code
         - curl
         - dconf-editor
-        - docker
+        - docker-ce
         - ffmpeg # for widevine (netflix) and youtube(?)
         - gnome-mpv
         - gnome-tweaks
         - htop
-        #- moby-engine # docker that does not work great...
         - nextcloud-client
         - nextcloud-client-nautilus
         - nmap
