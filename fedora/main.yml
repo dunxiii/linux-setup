@@ -2,7 +2,7 @@
 # First run:
 # sudo dnf install ansible
 
-- hosts: all
+- hosts: localhost
 
   connection: local
   gather_facts: yes
@@ -12,14 +12,16 @@
     ansible_user: jaso
     ansible_sudo_pass: "{{ ansible_ssh_pass }}"
     msg: |
-          Good gnome extentions to install:
+
+          Good gnome extentions:
+          ----------------------
           - Clipboard Indicator
           - Dash to Dock
           - No Topleft Hot Corner
           - Refresh wifi connections
           - Sound Input & Output Device Chooser
           - Top Panel Workspace Scroll
-          - Topicons plus
+          - Hide Activities Button
 
   vars_prompt:
     - name: ansible_ssh_pass
@@ -42,29 +44,8 @@
         state: present
       vars:
         packages:
-        - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-30.noarch.rpm
-        - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-30.noarch.rpm
-
-    - name: Add Docker repository
-      yum_repository:
-        name: Docker
-        baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/
-        gpgkey: https://download.docker.com/linux/fedora/gpg
-        description: Docker
-
-    - name: Add Riot repository
-      yum_repository:
-        name: Riot
-        baseurl: https://copr-be.cloud.fedoraproject.org/results/taw/Riot/fedora-$releasever-$basearch/
-        gpgkey: https://copr-be.cloud.fedoraproject.org/results/taw/Riot/pubkey.gpg
-        description: Riot
-
-    - name: Add VSCode repository
-      yum_repository:
-        name: VSCode
-        baseurl: https://packages.microsoft.com/yumrepos/vscode
-        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-        description: VSCode
+        - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-31.noarch.rpm
+        #- https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-31.noarch.rpm
 
     - name: Check for nVidia gpu
       shell: lspci | grep -qi nvidia
@@ -82,43 +63,38 @@
         - akmod-nvidia
       when: nvidiaPresent.rc == 0
 
+    - name: Add VSCode repository
+      yum_repository:
+        name: VSCode
+        baseurl: https://packages.microsoft.com/yumrepos/vscode
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+        description: VSCode
+
     - name: Install rpm packages
       dnf:
         name: "{{ packages }}"
         state: present
       vars:
         packages:
-        - chromium
-        - chromium-libs-media-freeworld
         - code
-        - curl
-        - dconf-editor
-        - docker-ce
-        - ffmpeg # for widevine (netflix) and youtube(?)
-        - gnome-mpv
+        #- chromium
+        #- chromium-libs-media-freeworld
+        #- dconf-editor
+        - ffmpeg # for h264 (netflix, youtube), from rpmfusion-free
+        #- gnome-mpv
         - gnome-tweaks
         - htop
-        - nextcloud-client
-        - nextcloud-client-nautilus
         - nmap
         - pavucontrol
         - pwgen
         - ranger
         - remmina
-        - riot
-        - snapd
         - transmission
         - unar
         - vim
         - virt-manager
         - xclip
-        #- libgnome-keyring
-
-    - name: Append jaso to docker group
-      user:
-        name: jaso
-        append: yes
-        groups: docker
+        #- libgnome-keyring # Needed for Nextcloud from fedora repo
 
     - name: Append jaso to libvirt group
       user:
@@ -126,18 +102,18 @@
         append: yes
         groups: libvirt
 
-    - name: Install standard snap packages
-      flatpak:
-        name: "{{ packages }}"
-      vars:
-        packages:
-        - spotify
+    - name: 
+      flatpak_remote:
+        name: flathub
+        flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
-    - name: Symlink python to python3
-      file:
-        src: /usr/bin/python3
-        dest: /usr/bin/python
-        state: link
+    - name: Install flatpak packages
+      flatpak:
+        name: "{{ item }}"
+      with_items:
+        - com.spotify.Client
+        - im.riot.Riot
+        - org.nextcloud.Nextcloud
 
     - name: Enable services
       systemd:
@@ -146,11 +122,30 @@
         enabled: yes
       with_items:
         - sshd
-        - docker
+        - libvirtd
+
+    - name: Add VSCode extensions
+      shell: code --install-extension "{{ item }}"
+      become: false
+      with_items:
+        - eamodio.toggle-excluded-files
+        # - Gruntfuggly.todo-tree
+        # - ionutvmi.path-autocomplete
+        # - ms-azuretools.vscode-docker
+        # - ms-kubernetes-tools.vscode-kubernetes-tools
+        - ms-python.python
+        - ms-vscode-remote.remote-containers
+        # - ms-vscode-remote.remote-ssh
+        # - ms-vscode-remote.remote-ssh-edit
+        # - ms-vscode-remote.remote-ssh-explorer
+        # - redhat.vscode-yaml
+        # - vscode-icons-team.vscode-icons
+        - vscoss.vscode-ansible
+      tags: test
 
     - name: Set gsettings
       shell: ./gsettings.sh
       become: false
 
     - debug:
-        msg: "{{ msg.split('\n') }}"
+        msg: "{{ msg }}"
