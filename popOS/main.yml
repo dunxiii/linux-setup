@@ -1,0 +1,109 @@
+---
+# First run:
+# sudo apt install ansible
+
+- hosts: localhost
+
+  connection: local
+  gather_facts: yes
+  become: yes
+
+  vars:
+    ansible_sudo_pass: "{{ ansible_ssh_pass }}"
+    msg: |
+
+          Good gnome extentions:
+          ----------------------
+          - Clipboard Indicator
+          - Dash to Dock
+          - Hide Activities Button
+          - Refresh wifi connections
+          - Sound Input & Output Device Chooser
+          - Top Panel Workspace Scroll
+
+  vars_prompt:
+    - name: ansible_ssh_pass
+      prompt: "Your password"
+      private: yes
+
+  tasks:
+
+    - name: Enable passwordless sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Install packages
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+        - bridge-utils      # Virtualization
+        - code
+        - docker-compose
+        - docker.io
+        - gnome-tweak-tool
+        - gnome-tweaks
+        - htop
+        - libvirt-daemon    # Virtualization
+        - network-manager-openconnect-gnome
+        - nextcloud-desktop
+        - nmap
+        - openssh-server
+        - pwgen
+        - qemu              # Virtualization
+        - qemu-kvm          # Virtualization
+        - ranger
+        - remmina
+        - spotify-client
+        - transmission
+        - unar
+        - vim
+        - virt-manager      # Virtualization
+        - xclip
+
+    - name: Append user to groups
+      user:
+        name: "{{ ansible_user }}"
+        append: yes
+        groups:
+        - docker
+        - libvirt
+
+    - name: Enable services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - sshd
+# 
+#    - name: Add VSCode extensions
+#      shell: code --install-extension "{{ item }}"
+#      become: false
+#      with_items:
+#        - eamodio.toggle-excluded-files
+#        # - Gruntfuggly.todo-tree
+#        # - ionutvmi.path-autocomplete
+#        # - ms-azuretools.vscode-docker
+#        # - ms-kubernetes-tools.vscode-kubernetes-tools
+#        - ms-python.python
+#        - ms-vscode-remote.remote-containers
+#        # - ms-vscode-remote.remote-ssh
+#        # - ms-vscode-remote.remote-ssh-edit
+#        # - ms-vscode-remote.remote-ssh-explorer
+#        # - redhat.vscode-yaml
+#        # - vscode-icons-team.vscode-icons
+#        - vscoss.vscode-ansible
+#      tags: test
+#
+    - name: Set gsettings
+      shell: ./gsettings.sh
+      become: false
+ 
+    - debug:
+        msg: "{{ msg }}"
