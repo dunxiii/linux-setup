@@ -47,7 +47,6 @@
         - docker-compose
         - docker.io
         - gnome-tweak-tool
-        - gnome-tweaks
         - htop
         - libvirt-daemon    # Virtualization
         - network-manager-openconnect-gnome
