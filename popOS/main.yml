@@ -36,6 +36,14 @@
         line: '%sudo ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
 
+    - name: Add kubernetes repo key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+    - name: Add kubernetes repo
+      apt_repository:
+        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+
     - name: Install packages
       apt:
         name: "{{ packages }}"
@@ -64,6 +72,7 @@
         - vim
         - virt-manager      # Virtualization
         - xclip
+        - kubect
 
     - name: Append user to groups
       user:
