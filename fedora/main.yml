@@ -47,15 +47,6 @@
         - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-31.noarch.rpm
         #- https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-31.noarch.rpm
 
-    - name: Add kubernetes repository
-      yum_repository:
-        name: Kubernetes
-        description: Google Kubernetes repo
-        gpgcheck: yes
-        repo_gpgcheck: yes
-        baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-        gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-
     - name: Check for nVidia gpu
       shell: lspci | grep -qi nvidia
       ignore_errors: yes
@@ -86,10 +77,10 @@
       vars:
         packages:
         - code
+        - ddrescue
         - ffmpeg # for h264 (netflix, youtube), from rpmfusion-free
         - gnome-tweaks
         - htop
-        - kubectl
         - nmap
         - pavucontrol
         - pwgen
@@ -141,7 +132,7 @@
         - Gruntfuggly.todo-tree
         - ms-python.python
         - vscoss.vscode-ansible
-        # - eamodio.toggle-excluded-files
+        - eamodio.toggle-excluded-files
         # - ms-azuretools.vscode-docker
         # - ms-kubernetes-tools.vscode-kubernetes-tools
         # - redhat.vscode-yaml
