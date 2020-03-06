@@ -79,6 +79,7 @@
         - code
         - ddrescue
         - ffmpeg # for h264 (netflix, youtube), from rpmfusion-free
+        - fontawesome-fonts
         - gnome-tweaks
         - htop
         - nmap
