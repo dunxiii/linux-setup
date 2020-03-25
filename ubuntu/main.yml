@@ -1,0 +1,135 @@
+---
+# run:
+# $ sudo apt install ansible
+# $ ansible-playbook main.yml
+
+- hosts: localhost
+
+  connection: local
+  gather_facts: yes
+  become: yes
+
+  vars:
+    ansible_user: jaso
+    ansible_sudo_pass: "{{ ansible_ssh_pass }}"
+    msg: |
+
+          Good gnome extentions:
+          ----------------------
+          - Clipboard Indicator
+          - Refresh wifi connections
+          - Sound Input & Output Device Chooser
+          - Top Panel Workspace Scroll
+          - Hide Activities Button
+
+  vars_prompt:
+    - name: ansible_ssh_pass
+      prompt: "Your password"
+      private: yes
+
+  tasks:
+
+    - name: Enable passwordless sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Install apt packages
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - adwaita-icon-theme-full
+        - chrome-gnome-shell
+        - curl
+        - docker-compose
+        - docker.io
+        - fzf
+        - htop
+        - network-manager-openconnect-gnome
+        - nextcloud-desktop
+        - nmap
+        - pwgen
+        - ranger
+        - remmina
+        - transmission
+        - vim
+        #- gnome-tweaks
+        #- unar
+        #- virt-manager
+    
+    - name: Install snaps
+      snap:
+        name:
+          - chromium
+          - riot-web
+          - spotify
+
+    - name: Install snaps as classic
+      snap:
+        classic: yes
+        name:
+          - code
+          - helm
+          - kubectl
+
+    - name: Append jaso to docker group
+      user:
+        name: jaso
+        append: yes
+        groups: docker
+
+    - name: Enable services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - docker
+        #- sshd
+
+    # - name: Add VSCode extensions
+    #   shell: code --install-extension "{{ item }}"
+    #   become: false
+    #   with_items:
+    #     - Gruntfuggly.todo-tree
+    #     - ms-python.python
+    #     - vscoss.vscode-ansible
+    #     # - eamodio.toggle-excluded-files
+    #     # - ms-kubernetes-tools.vscode-kubernetes-tools
+    #     # - redhat.vscode-yaml
+    #     # - vscode-icons-team.vscode-icons
+    #   tags: test
+
+    - name: Set classic theme for gdm
+      shell: update-alternatives --set gdm3-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
+
+    - name: Make sure gsettings file is executeable
+      file:
+        path: "{{ playbook_dir }}/gsettings.sh"
+        mode: '0755'
+
+    - name: Set gsettings
+      shell: ./gsettings.sh
+      become: false
+    
+    - name: Enable widevine support in chromium
+      shell: ./chromium-widewine-install.sh
+      become: false
+
+    # - name: Set gsettings
+    #   gconftool2:
+    #     state: get
+    #     key: "{{ item.key }}"
+    #     value_type: "{{ item.value_type }}"
+    #     value: "{{ item.value }}"
+    #   become: false
+    #   with_items:
+    #     - { key: /org/gnome/desktop/calendar/show-weekdate, value_type: bool, value: true }
+    #   tags: gsettings
+
+    - debug:
+        msg: "{{ msg }}"
