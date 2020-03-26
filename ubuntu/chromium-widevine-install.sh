@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+set -au
+
 # Chromium root directory
 root="$HOME"/snap/chromium/current
+
+# Make sure chromium dir aldready exist
+if [ ! -d "$root" ]; then
+  echo "Make sure chromium is installed, and/or has been started once!"
+  exit 1
+fi
 
 # Create a temporary directory
 tmpdir=$(mktemp -d)
@@ -17,7 +25,7 @@ dpkg-deb -R "$tmpdir"/chrome.deb "$tmpdir"/chrome
 
 # Copy the Widevine directory tree to the proper location
 if [ ! -d "$root"/.local/lib ]; then
-  mkdir -p "$root"/.local/lib
+  mkdir "$root"/.local/lib
 fi
 if [ -d "$root"/.local/lib/WidevineCdm ]; then
   rm -R "$root"/.local/lib/WidevineCdm

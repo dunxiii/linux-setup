@@ -117,7 +117,7 @@
       become: false
     
     - name: Enable widevine support in chromium
-      shell: ./chromium-widewine-install.sh
+      shell: ./chromium-widevine-install.sh
       become: false
 
     # - name: Set gsettings
