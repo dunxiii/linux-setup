@@ -11,7 +11,7 @@
 
   vars:
     ansible_user: jaso
-    ansible_sudo_pass: "{{ ansible_ssh_pass }}"
+    #ansible_sudo_pass: "{{ ansible_ssh_pass }}"
     msg: |
 
           Good gnome extentions:
@@ -64,7 +64,7 @@
     - name: Install snaps
       snap:
         name:
-          - chromium
+          #- chromium
           - riot-web
           - spotify
 
@@ -116,8 +116,23 @@
       shell: ./gsettings.sh
       become: false
     
-    - name: Enable widevine support in chromium
-      shell: ./chromium-widevine-install.sh
+    # - name: Enable widevine support in chromium
+    #   shell: ./chromium-widevine-install.sh
+    #   become: false
+
+    - name: Find firefox profile path
+      find:
+        paths: /home/{{ ansible_user }}/.mozilla/firefox/
+        recurse: yes
+        patterns: 'prefs.js'
+      become: false
+      register: find_result
+
+    - name: Deploy firefox profile settings
+      copy:
+        src: user.js
+        dest: "{{ item.path | dirname }}/user.js"
+      with_items: "{{ find_result.files }}"
       become: false
 
     # - name: Set gsettings
