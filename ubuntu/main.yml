@@ -128,11 +128,16 @@
       become: false
       register: find_result
 
+    - debug:
+        msg: "Could not find active firefox profile. Run firefox and rerun this playbook."
+      when: find_result.matched == 0
+
     - name: Deploy firefox profile settings
       copy:
         src: user.js
         dest: "{{ item.path | dirname }}/user.js"
       with_items: "{{ find_result.files }}"
+      when: find_result.matched > 0
       become: false
 
     # - name: Set gsettings
