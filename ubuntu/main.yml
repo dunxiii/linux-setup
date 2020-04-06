@@ -48,6 +48,8 @@
         - docker-compose
         - docker.io
         - fzf
+        - gnome-session # Use default gnome theme
+        - gnome-shell-extension-prefs # To edit extension configurations
         - htop
         - network-manager-openconnect-gnome
         - nextcloud-desktop
@@ -60,7 +62,7 @@
         #- gnome-tweaks
         #- unar
         #- virt-manager
-    
+
     - name: Install snaps
       snap:
         name:
@@ -112,9 +114,9 @@
         path: "{{ playbook_dir }}/gsettings.sh"
         mode: '0755'
 
-    - name: Set gsettings
-      shell: ./gsettings.sh
-      become: false
+    # - name: Set gsettings
+    #   shell: ./gsettings.sh
+    #   become: false
     
     # - name: Enable widevine support in chromium
     #   shell: ./chromium-widevine-install.sh

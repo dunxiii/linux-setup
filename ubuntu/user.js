@@ -12,4 +12,4 @@ user_pref("toolkit.cosmeticAnimations.enabled", false);
 user_pref("browser.download.useDownloadDir", false);
 
 // Make vsync work on fullscreen video
-user_pref("layers.acceleration.force-enabled", false);
+user_pref("layers.acceleration.force-enabled", true);

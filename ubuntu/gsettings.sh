@@ -5,9 +5,9 @@
 set -au
 
 # Theme
-gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
+#gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
+#gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+#gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
 #gsettings set org.gnome.desktop.sound theme-name 'freedesktop'
 
 # Misc gnome settings
@@ -17,6 +17,7 @@ gsettings set org.gnome.desktop.interface show-battery-percentage true
 gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 38
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false
 gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
+gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 
 # Touchpad / Touchscreen
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
