@@ -10,6 +10,13 @@ set -au
 #gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
 #gsettings set org.gnome.desktop.sound theme-name 'freedesktop'
 
+# Customize built in dash-to-dock (only ubuntu)
+gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
+gsettings set org.gnome.shell.extensions.dash-to-dock running-indicator-style 'DASHES'
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height true
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed true
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 40
+
 # Misc gnome settings
 gsettings set org.gnome.desktop.calendar show-weekdate true
 gsettings set org.gnome.desktop.interface show-battery-percentage true
