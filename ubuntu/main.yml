@@ -47,8 +47,10 @@
         - curl
         - docker-compose
         - docker.io
+        - fonts-font-awesome
         - fzf
         - gnome-session # Use default gnome theme
+        - gnome-shell-extensions # GUI and cli tool for extensions
         - gnome-shell-extension-prefs # To edit extension configurations
         - htop
         - network-manager-openconnect-gnome
