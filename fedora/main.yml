@@ -18,10 +18,7 @@
           - Clipboard Indicator
           - Dash to Dock
           - No Topleft Hot Corner
-          - Refresh wifi connections
           - Sound Input & Output Device Chooser
-          - Top Panel Workspace Scroll
-          - Hide Activities Button
 
   vars_prompt:
     - name: ansible_ssh_pass
@@ -44,8 +41,8 @@
         state: present
       vars:
         packages:
-        - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-31.noarch.rpm
-        #- https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-31.noarch.rpm
+        - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm
+        - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-32.noarch.rpm
 
     - name: Check for nVidia gpu
       shell: lspci | grep -qi nvidia
@@ -76,28 +73,32 @@
         state: present
       vars:
         packages:
+        #- ddrescue
+        #- ffmpeg # for h264 (netflix, youtube), from rpmfusion-free
+        #- gnome-tweaks
+        #- libgnome-keyring # Needed for Nextcloud from fedora repo
+        #- pavucontrol
+        #- virt-manager
         - code
-        - ddrescue
-        - ffmpeg # for h264 (netflix, youtube), from rpmfusion-free
+        - docker
+        - docker-compose
         - fontawesome-fonts
-        - gnome-tweaks
+        - gnome-extensions-app
         - htop
+        - nextcloud-client
         - nmap
-        - pavucontrol
         - pwgen
         - ranger
         - remmina
         - transmission
         - unar
         - vim
-        - virt-manager
-        #- libgnome-keyring # Needed for Nextcloud from fedora repo
 
-    - name: Append jaso to libvirt group
-      user:
-        name: jaso
-        append: yes
-        groups: libvirt
+    #- name: Append jaso to libvirt group
+    #  user:
+    #    name: jaso
+    #    append: yes
+    #    groups: libvirt
 
     - name: 
       flatpak_remote:
@@ -109,8 +110,7 @@
         name: "{{ item }}"
       with_items:
         - com.spotify.Client
-        - im.riot.Riot
-        - org.nextcloud.Nextcloud
+        - com.mattermost.Desktop
 
     - name: Enable services
       systemd:
@@ -118,22 +118,51 @@
         state: started
         enabled: yes
       with_items:
-        - sshd
-        - libvirtd
+        #- sshd
+        #- libvirtd
+        - dnf-makecache
 
-    - name: Add VSCode extensions
-      shell: code --install-extension "{{ item }}"
+    #- name: Add VSCode extensions
+    #  shell: code --install-extension "{{ item }}"
+    #  become: false
+    #  with_items:
+    #    - Gruntfuggly.todo-tree
+    #    - ms-python.python
+    #    - vscoss.vscode-ansible
+    #    #- eamodio.toggle-excluded-files
+    #    # - ms-azuretools.vscode-docker
+    #    # - ms-kubernetes-tools.vscode-kubernetes-tools
+    #    # - redhat.vscode-yaml
+    #    # - vscode-icons-team.vscode-icons
+    #  #tags: test
+
+    - name: Find firefox profile path
+      find:
+        paths: /home/{{ ansible_user }}/.mozilla/firefox/
+        recurse: yes
+        patterns: 'prefs.js'
       become: false
-      with_items:
-        - Gruntfuggly.todo-tree
-        - ms-python.python
-        - vscoss.vscode-ansible
-        - eamodio.toggle-excluded-files
-        # - ms-azuretools.vscode-docker
-        # - ms-kubernetes-tools.vscode-kubernetes-tools
-        # - redhat.vscode-yaml
-        # - vscode-icons-team.vscode-icons
-      tags: test
+      register: find_result
+      tags: ff
+
+    - debug:
+        msg: "Could not find active firefox profile. Run firefox and rerun this playbook."
+      when: find_result.matched == 0
+      tags: ff
+
+    - name: Deploy firefox profile settings
+      copy:
+        src: user.js
+        dest: "{{ item.path | dirname }}/user.js"
+      with_items: "{{ find_result.files }}"
+      when: find_result.matched > 0
+      become: false
+      tags: ff
+
+    - name: gsettings permission
+      file:
+        path: ./gsettings.sh
+        mode: 0755
 
     - name: Set gsettings
       shell: ./gsettings.sh
