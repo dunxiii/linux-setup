@@ -19,6 +19,7 @@
           - Dash to Dock
           - No Topleft Hot Corner
           - Sound Input & Output Device Chooser
+          - KStatusNotifierItem/AppIndicator Support
 
   vars_prompt:
     - name: ansible_ssh_pass
