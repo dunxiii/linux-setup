@@ -83,6 +83,7 @@
         - code
         - docker
         - docker-compose
+        - flameshot
         - fontawesome-fonts
         - gnome-extensions-app
         - htop
